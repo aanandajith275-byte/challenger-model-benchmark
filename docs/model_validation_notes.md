@@ -2,40 +2,35 @@
 
 ## Validation setup
 
-- 80/20 stratified train/test split
+- Train/test split: 80/20
+- Stratified split
 - Random state: 42
-- XGBoost tuning with GridSearchCV
-- 5-fold StratifiedKFold
-- ROC-AUC used during tuning
-- Final metrics measured on the held-out test set
+- XGBoost tuning: GridSearchCV
+- Cross-validation: 5-fold StratifiedKFold
+- GridSearch scoring: ROC-AUC
+- Final evaluation: held-out test set
 
 ## Leakage experiment
 
-`dpd_30_plus` is a synthetic post-approval variable. It is intentionally correlated with the target to show how future information can inflate model performance.
+`dpd_30_plus` is simulated as post-approval information. It is intentionally correlated with the target to demonstrate how future information can inflate model performance.
 
 The original German Credit dataset does not contain real feature-creation timestamps or a production repayment-history field for this experiment.
 
-Recorded leaked Logistic Regression ROC-AUC: **0.981**.
-
-## Current test results
+## Recorded results
 
 | Model | ROC-AUC | Gini | KS | Precision | Recall | F1 |
 |---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression | 0.809 | 0.619 | 0.581 | 0.681 | 0.533 | 0.598 |
-| XGBoost Challenger | 0.791 | 0.583 | 0.460 | 0.705 | 0.517 | 0.596 |
+| Logistic Regression | 0.812 | 0.625 | 0.532 | 0.671 | 0.522 | 0.588 |
+| XGBoost Challenger | 0.782 | 0.563 | 0.432 | 0.627 | 0.356 | 0.454 |
 
-## XGBoost tuning
+Recorded leaked Logistic Regression ROC-AUC: **0.981**.
 
-Best recorded parameters:
+Best recorded XGBoost parameters:
 
 - learning_rate: 0.05
 - max_depth: 3
 - n_estimators: 200
 
-Best recorded 5-fold CV ROC-AUC: **0.794**.
+Best recorded CV ROC-AUC: **0.794**.
 
-The test set is not used during GridSearch.
-
-## Notes
-
-The values above correspond to the current script, data and random seed. If those change, regenerate the outputs and update this file.
+These values are documented from the project run and should be updated if the experiment is intentionally rerun with changed code, random seeds, or data.
